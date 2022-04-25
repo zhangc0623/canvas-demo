@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="400" height="400" id="myCanvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d')
+
+    ctx.save()
+    ctx.scale(1, -1)
+
+    ctx.font = '32px STHeiti, SimHei'
+    ctx.fillText('hello world！', 36, -64)
+    ctx.restore()
+
+</script>
+</html>

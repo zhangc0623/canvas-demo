@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="300" height="100"></canvas>
+<div><input type="range" min="-10" max="15" value="0" style="width:300px;"></div>
+</body>
+<script>
+  // 字符间距
+  let canvas = document.querySelector('canvas');
+  let ctx = canvas.getContext('2d')
+  let range = document.querySelector('input[type=range]');
+  let draw = function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      // 字符间距设置
+      canvas.style.letterSpacing = range.value + 'px'
+      // 并绘制文本，font属性值设置一定要在这里
+      ctx.font = '32px sans-serif';
+      ctx.fillText('文字间距', 10, 30)
+  }
+  // 改变字符间距后重绘
+  range.addEventListener('change', draw)
+  // 默认绘制
+  draw()
+</script>
+</html>

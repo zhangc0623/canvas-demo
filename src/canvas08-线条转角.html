@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas height="400" width="400" id="myCanvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d')
+
+    // 起止点坐标
+    let start = {x: 20, y: 20}
+    let end = {x: 190, y: 80}
+    // 计算两点距离，主要是为了计算斜率
+    let distanceX = end.x - start.x, distanceY = end.y - start.y
+    let distance = Math.sqrt(distanceY * distanceY + distanceX * distanceX)
+    // 箭头的尺寸
+    let distanceArrow = 7, sharpeArrow = 3
+
+    // 先确定轴线与三角两个尖角点交汇坐标
+    let arrowMoveTo = {
+        x: start.x + distanceArrow * distanceX / distance,
+        y: start.y + distanceArrow * distanceY / distance
+    }
+    console.log('arrowMoveTo:', arrowMoveTo)
+    let arrowLineTo = {
+        x: end.x - distanceArrow * distanceX / distance,
+        y: end.y - distanceArrow * distanceY / distance
+    }
+    console.log('arrowLineTo:', arrowLineTo)
+
+    // 4个对称点坐标
+    let arrowTo1 = {
+        x: arrowMoveTo.x - sharpeArrow * distanceY / distance,
+        y: arrowMoveTo.y + sharpeArrow * distanceX / distance
+    }
+
+    let arrowTo2 = {
+        x: arrowMoveTo.x + sharpeArrow * distanceY / distance,
+        y: arrowMoveTo.y - sharpeArrow * distanceX / distance
+    }
+
+    let arrowTo3 = {
+        x: arrowLineTo.x - sharpeArrow * distanceY / distance,
+        y: arrowLineTo.y + sharpeArrow * distanceX / distance
+    }
+
+    let arrowTo4 = {
+        x: arrowLineTo.x + sharpeArrow * distanceY / distance,
+        y: arrowLineTo.y - sharpeArrow * distanceX / distance
+    }
+
+    // 设置线的粗细和断点
+    ctx.lineWidth = 2
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+
+    // 绘制方法
+    let draw = function (arrow){
+        arrow = arrow || 'single'
+
+        // 清除画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // 开始绘制
+        ctx.beginPath()
+        // 三种箭头类型
+        switch (arrow) {
+            case 'single': {
+                ctx.moveTo(start.x, start.y)
+                ctx.lineTo(end.x, end.y)
+
+                // 两个结束对称点
+                ctx.lineTo(arrowTo3.x, arrowTo3.y)
+                ctx.lineTo(arrowTo4.x, arrowTo4.y)
+
+                // 回到结束点
+                ctx.lineTo(end.x, end.y)
+                break
+            }
+            case 'both': {
+                // 双箭头
+                ctx.moveTo(start.x, start.y)
+                // 两个起始对称点
+                ctx.lineTo(arrowTo1.x, arrowTo1.y)
+                ctx.lineTo(arrowTo2.x, arrowTo2.y)
+                // 回到起始
+                ctx.lineTo(start.x, start.y)
+
+                // 重复single的绘制
+                ctx.lineTo(end.x, end.y)
+                // 两个结束对称点
+                ctx.lineTo(arrowTo3.x, arrowTo3.y)
+                ctx.lineTo(arrowTo4.x, arrowTo4.y)
+                ctx.lineTo(end.x, end.y)
+                break
+            }
+            case 'part-both': {
+                // 双向单侧箭头
+                ctx.moveTo(arrowMoveTo.x, arrowMoveTo.y)
+                ctx.lineTo(arrowTo1.x, arrowTo1.y)
+                ctx.lineTo(start.x, start.y)
+
+                // 重复single的绘制
+                ctx.lineTo(end.x, end.y)
+                ctx.lineTo(arrowTo4.x, arrowTo4.y)
+                ctx.lineTo(arrowLineTo.x, arrowLineTo.y)
+                break
+            }
+        }
+        // 闭合，描边与填充
+        ctx.closePath()
+        // ctx.strokeStyle = 'red'
+        ctx.stroke()
+        ctx.fill()
+    }
+
+    draw('part-both')
+</script>
+</html>

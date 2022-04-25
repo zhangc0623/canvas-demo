@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="400" height="400" id="canvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('canvas')
+    let ctx = canvas.getContext('2d')
+
+    // 偏移大小
+    let offset = 0
+    // 绘制
+    let draw = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.setLineDash([8, 4])
+        ctx.lineDashOffset = offset
+        ctx.strokeRect(2, 2, 236, 116)
+    }
+
+    let run = function () {
+        offset += 0.5
+        if (offset > 24) {
+            offset = 0
+        }
+        draw()
+        // 继续绘制
+        requestAnimationFrame(run)
+    }
+
+    run()
+</script>
+</html>

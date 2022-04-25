@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input id="save" type="submit" value="保存">
+<input id="restore" type="reset" value="恢复">
+<canvas width="400" height="400" id="myCanvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d')
+
+    // 初始字体大小
+    let fontSize = 16
+    // 初始文字填充
+    ctx.font = fontSize + 'px arial'
+    ctx.fillText('观察字号大小', 100, 100)
+
+    document.getElementById('save').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.save()
+
+        // 字号递增
+        fontSize++
+        ctx.font = fontSize + 'px arial'
+        ctx.fillText('观察字号大小', 100, 100)
+    })
+
+    document.getElementById('restore').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        // 字号递减
+        fontSize--
+        // 回复上一次状态
+        ctx.restore()
+        ctx.fillText('观察字号大小', 100, 100)
+    })
+
+</script>
+</html>

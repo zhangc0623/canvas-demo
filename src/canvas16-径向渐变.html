@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="180" height="180" id="myCanvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d')
+
+    // 创建渐变
+    let gradient = ctx.createRadialGradient(90, 90, 0, 90, 90, 90)
+    gradient.addColorStop(0, 'red')
+    gradient.addColorStop(0.5, 'red')
+    gradient.addColorStop(0.5, 'green')
+    gradient.addColorStop(1, 'green')
+    gradient.addColorStop(1, 'transparent')
+
+    // 设置填充样式为渐变
+    ctx.fillStyle = gradient
+
+    ctx.fillRect(0, 0, 180, 180)
+</script>
+</html>

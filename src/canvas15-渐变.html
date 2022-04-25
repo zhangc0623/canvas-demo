@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="400" height="400" id="myCanvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d')
+
+    // 创建渐变
+    let gradient = ctx.createLinearGradient(0, 0, 300, 300)
+    gradient.addColorStop(0, 'red')
+    gradient.addColorStop(1, 'green')
+
+    // 设置填充样式为渐变
+    ctx.fillStyle = gradient
+
+    ctx.fillRect(0, 0, 300, 300)
+</script>
+</html>

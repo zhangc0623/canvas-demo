@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400"></canvas>
+<p></p>
+</body>
+<script>
+  let canvas = document.getElementById('canvas');
+  let ctx = canvas.getContext('2d')
+  // 设置字体样式
+  // ctx.font = '24px SimSun, Songti SC'
+  ctx.font = 'bold 120px SimHei, STHeiti'
+  ctx.fillText('24px的宋体呈现', 10, 10)
+
+  // 默认
+  ctx.fillText('字号是不是10px，字体是不是sans-serif无衬线', 10, 50)
+  // 这个设置font为10px sans-serif
+  ctx.font = '10px sans-serif'
+  ctx.fillText('字号是不是10px，字体是不是sans-serif无衬线', 10, 70)
+  // 修改font为10px serif
+  ctx.font = '10px serif';
+  ctx.fillText('字号是不是10px，字体是不是sans-serif无衬线', 10, 90);
+
+  // ch单位测试
+  ctx.font = '3ch serif'
+  ctx.fillText('ch测试', 10, 120)
+
+  // rem单位测试
+  ctx.font = '3rem serif'
+  ctx.fillText('rem测试', 10, 150)
+
+  // <p>元素的font计算值
+  ctx.font = window.getComputedStyle(document.querySelector('p')).font;
+  console.log(ctx.font)
+  ctx.fillText('来自CSS的font计算值---'+ctx.font, 10, 180);
+
+  // <p>元素所有样式计算值
+  let styles = window.getComputedStyle(document.querySelector('p'));
+  ctx.font = styles.fontSize + ' ' + styles.fontFamily;
+  ctx.fillText('文本----'+ctx.font, 10, 210);
+
+  // maxWidth与文本缩放
+  ctx.fillText('maxWidth与文本缩放', 10, 250, 40)
+
+  // 文本自动换行
+  CanvasRenderingContext2D.prototype.wrapText = function (text, x, y, maxWidth, lineHeight) {
+      if (typeof text != 'string' || typeof x != 'number' || typeof y != 'number') {
+          return;
+      }
+
+      var context = this;
+      var canvas = context.canvas;
+
+      if (typeof maxWidth == 'undefined') {
+          maxWidth = (canvas && canvas.width) || 300;
+      }
+      if (typeof lineHeight == 'undefined') {
+          lineHeight = (canvas && parseInt(window.getComputedStyle(canvas).lineHeight)) || parseInt(window.getComputedStyle(document.body).lineHeight);
+      }
+
+      // 字符分隔为数组
+      var arrText = text.split('');
+      var line = '';
+
+      for (var n = 0; n < arrText.length; n++) {
+          var testLine = line + arrText[n];
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+              context.fillText(line, x, y);
+              line = arrText[n];
+              y += lineHeight;
+          } else {
+              line = testLine;
+          }
+      }
+      context.fillText(line, x, y);
+  };
+  ctx.wrapText('文本自动换行', 10, 280, 40, 20)
+</script>
+</html>

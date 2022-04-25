@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="400" height="400" id="myCanvas"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d')
+
+    /*-------------------------loading图标---------------------*/
+    // 圆心坐标
+    let center = [20, 20]
+    // 线长度和距离圆心的距离
+    let length = 8, offset = 8
+    // 开始绘制
+    ctx.lineWidth = 4
+    ctx.lineCap = 'round'
+    let angle = 360
+    let draw = function () {
+        for (let i = 0; i < 360; i += 45) {
+            // 正余弦
+            let sin = Math.sin(i / 180 * Math.PI)
+            let cos = Math.cos(i / 180 * Math.PI)
+
+            // 开始绘制
+            ctx.beginPath()
+            ctx.moveTo(center[0] + offset * cos, center[1] + offset * sin)
+            ctx.lineTo(center[0] + (offset + length) * cos, center[1] + (offset + length) * sin)
+            ctx.strokeStyle = 'rgba(0,0,0,' + (0.25 + 0.75 * ((i + angle) % 360) / 360) + ')'
+            ctx.stroke()
+        }
+    }
+    let time0 = new Date()
+    let run = function () {
+        let time1 = new Date()
+        if (time1 - time0 < 80){
+            requestAnimationFrame(run)
+            return
+        }
+        time0 = time1
+        angle -= 45
+        if (angle == 0) {
+            angle = 360
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.save()
+        ctx.translate(center[0], center[1])
+        ctx.rotate(angle)
+        ctx.restore()
+        draw()
+        requestAnimationFrame(run)
+    }
+    run()
+
+
+    /*---------------------画线---------------------*/
+    // ctx.clearRect(0, 0, canvas.width, canvas.height)
+    // ctx.beginPath()
+    // ctx.moveTo(400, 0)
+    // ctx.lineTo(400, 500)
+    // ctx.lineWidth = 10
+    // ctx.lineCap = 'square'
+    // ctx.strokeStyle = 'red'
+    // ctx.stroke()
+</script>
+</html>

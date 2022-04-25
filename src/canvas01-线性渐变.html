@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+</body>
+<script>
+    let myCanvas = document.getElementById('canvas');
+    let ctx = myCanvas.getContext('2d');
+    console.dir(ctx);
+    ctx.clearRect(0, 0, 400, 400);
+    // 填充画布颜色
+    ctx.fillStyle = 'RGB(255, 0, 0)'
+    // 渐变填充-线性
+    // 创建线性渐变对象
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'red')
+    gradient.addColorStop(0.5, 'yellow')
+    gradient.addColorStop(1, 'green')
+    // 填充线性渐变
+    ctx.fillStyle = gradient
+
+    ctx.fillRect(0, 0, 400, 400)
+
+
+    // 画矩形
+    // 边框宽度
+    ctx.lineWidth = 10;
+    ctx.strokeRect(10, 10, 100, 100)
+</script>
+</html>
